@@ -1,11 +1,10 @@
-import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-TOKEN = os.getenv("BOT_TOKEN")
+TOKEN = "ТУТ_ТВІЙ_ТОКЕН"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Бот працює 🚀")
+    await update.message.reply_text("Привіт! Я працюю 🚀")
 
 app = ApplicationBuilder().token(TOKEN).build()
 
