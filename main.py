@@ -1,38 +1,14 @@
-from telethon import TelegramClient, events
 import os
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-api_id = int(os.environ.get("API_ID"))
-api_hash = os.environ.get("API_HASH")
-your_username = os.environ.get("USERNAME")
+TOKEN = os.getenv("BOT_TOKEN")
 
-groups = [
-    'valicante',
-    'Alicantebaraholka',
-    'amigosalicanteucrania',
-    'spain_useful',
-    'dopomogaispania',
-    'spainlives',
-    'costablanca_es',
-    'CostaBlancaaa'
-]
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Бот працює 🚀")
 
-keywords = [
-    'трансфер', 'transfer', 'такси', 'таксі',
-    'переезд', 'переїзд',
-    'груз', 'доставка', 'перевезення',
-    'нужно', 'ищу', 'кто может'
-]
+app = ApplicationBuilder().token(TOKEN).build()
 
-client = TelegramClient('session', api_id, api_hash)
+app.add_handler(CommandHandler("start", start))
 
-@client.on(events.NewMessage(chats=groups))
-async def handler(event):
-    text = event.raw_text.lower()
-
-    if any(word in text for word in keywords):
-        message = f"🚨 Новая заявка:\n\n{text}"
-        await client.send_message(your_username, message)
-
-client.start()
-print("Бот запущен 🚀")
-client.run_until_disconnected()
+app.run_polling()
